@@ -1,0 +1,89 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+.table-container {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table th, .styled-table td {
+    text-align: left;
+    padding: 10px;
+}
+
+.styled-table th {
+    background: #007BFF;
+    color: white;
+}
+
+.styled-table tbody tr:nth-child(even) {
+    background: #f3f3f3;
+}
+
+.styled-table tbody tr:hover {
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+form {
+    margin: 20px 0;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}

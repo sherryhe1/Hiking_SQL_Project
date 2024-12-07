@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+    <!-- <link rel="stylesheet" href="styles.css">   -->
+
+    <title>Hiking Club Management Application</title>
+</head>
+<body>
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+    <h1>Database Connection Status: 
+        <!-- An in-line placeholder to display connection status. -->
+        <span id="dbStatus"> </span>
+        <!-- A loading GIF, will be hided once get the status. -->
+        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+    </h1>
+
+    <br><hr><br> <!-- ========================================================================= -->
+<main>
+
+    <button id="initiateTables">Reset/Initiate Tables</button>
+    <p id="initiateResultMsg"></p>
+
+   
+    <!-- Buttons in a single row -->
+    <!-- <div id="tableButtons" style="text-align: center; margin-bottom: 20px;">
+        <button onclick="showTable('joinHikersTable', fetchAndDisplayJoinHikers)">Show Hikers</button>
+        <button onclick="showTable('hikingClubsTable', fetchAndDisplayHikingClubs)">Show Hiking Clubs</button>
+        <button onclick="showTable('haveTrailsTable', fetchAndDisplayHaveTrails)">Show Trails</button> <br>
+        <button onclick="showTable('avgTrailsTable', fetchAndDisplayAvgTrails)">Show Average Trails Completed by Experience Level</button>
+        <button onclick="showTable('maxTrailsTable', fetchAndDisplayMaxTrails)">Show Max Trails Completed by Each Big Club</button>
+        <button onclick="showTable('hikersHighestTrailsTable', fetchAndDisplayHighestTrails)">Show Hikers with Above-Average Trail Completion by Level</button>
+        <button onclick="showTable('hikersAllMountainsTable', fetchAndDisplayAllMountains)">Show Hikers Who Hiked All Mountains</button>
+    </div> -->
+    <div id="tableButtons" style="text-align: center; margin-bottom: 20px;">
+        <button onclick="showTable('joinHikersTable', fetchAndDisplayJoinHikers)">Show Hikers</button>
+        <button onclick="showTable('hikingClubsTable', fetchAndDisplayHikingClubs)">Show Hiking Clubs</button>
+        <button onclick="showTable('haveTrailsTable', fetchAndDisplayHaveTrails)">Show Trails</button>
+    </div>
+    <div id="tableButtons2" style="text-align: center; margin-bottom: 20px;">
+        <button onclick="showTable('avgTrailsTable', fetchAndDisplayAvgTrails)">Show Average Trails Completed by Experience Level</button>
+        <button onclick="showTable('maxTrailsTable', fetchAndDisplayMaxTrails)">Show Max Trails Completed by Each Big Club</button>
+        <button onclick="showTable('hikersHighestTrailsTable', fetchAndDisplayHighestTrails)">Show Hikers with Above-Average Trail Completion by Level</button>
+        <button onclick="showTable('hikersAllMountainsTable', fetchAndDisplayAllMountains)">Show Hikers Who Hiked All Mountains</button>
+    </div>
+
+    <!-- Join Hikers Table Section -->
+    <section id="joinHikersSection">
+        <table id="joinHikersTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Hiker Email</th>
+                    <th>Name</th>
+                    <th>Number of Trails Completed</th>
+                    <th>Experience Level</th>
+                    <th>Club Email</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    
+    <!-- HikingClubs Table Section -->
+    <section>
+        <table id="hikingClubsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Club Email</th>
+                    <th>Club Name</th>
+                    <th>Number of Members</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Have_Trails1 Table Section -->
+    <section>
+        <table id="haveTrailsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Trail Name</th>
+                    <th>Elevation Gain (ft)</th>
+                    <th>Distance (mi)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Average Trails Table Section -->
+    <section>
+        <table id="avgTrailsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Experience Level</th>
+                    <th>Average Number of Trails Completed</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Max Trails by Club Table Section --> 
+    <section>
+        <table id="maxTrailsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Club Email</th>
+                    <th>Maximum Trails Completed</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Hikers with Above-Average Trails Section -->
+    <section>
+        <table id="hikersHighestTrailsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Hiker Email</th>
+                    <th>Name</th>
+                    <th>Experience Level</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+    <!-- Hikers Who Hiked All Mountains Section -->
+    <section>
+        <table id="hikersAllMountainsTable" class="styled-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Hiker Email</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+
+
+        <!-- Manage Hikers Section -->
+        <section id="manageHikersSection">
+            <h3>Manage Hikers</h3>
+
+            <!-- Insert Hiker -->
+            <h3>Add Hiker</h3>
+            <form id="insertHikerForm">
+            <label for="insertHikerEmail">Hiker Email:</label>
+            <input type="email" id="insertHikerEmail" required><br>
+
+            <label for="insertHikerName">Name:</label>
+            <input type="text" id="insertHikerName" required><br>
+
+            <label for="insertNumTrails">Number of Trails Completed:</label>
+            <input type="number" id="insertNumTrails" required><br>
+
+            <label for="insertHikerClubEmail">Club Email:</label>
+            <input type="email" id="insertHikerClubEmail" required>
+
+            <button type="submit">Insert Hiker</button><br><br>
+        </form>
+
+        <p id="insertHikerResultMsg" style="display: none;"></p>
+
+
+            <!-- Update Hiker -->
+            <h3>Update Hiker</h3>
+                    <form id="updateHikerForm">
+            <label for="updateHikerEmail">Hiker Email:</label>
+            <input type="email" id="updateHikerEmail" required><br>
+
+            <label for="updateHikerName">New Name:</label>
+            <input type="text" id="updateHikerName"><br>
+
+            <label for="updateNumTrails">New Number of Trails:</label>
+            <input type="number" id="updateNumTrails"><br>
+
+            <label for="updateHikerClubEmail">New Club Email:</label>
+            <input type="email" id="updateHikerClubEmail">
+
+            <button type="submit">Update Hiker</button><br><br>
+            </form>
+            <p id="updateHikerResultMsg" style="display: none;"></p>
+
+
+        <!-- Delete Hiker -->
+        <form id="deleteHikerForm">
+            <h3>Delete Hiker</h3>
+            Hiker Email: <input type="text" id="deleteHikerEmail" placeholder="Enter Hiker Email" required>
+            <button type="submit">Delete Hiker</button><br><br>
+        </form>
+            <p id="deleteHikerResultMsg" style="display: none;"></p> 
+        </section>
+
+        <section id="searchHikersSection">
+            <h3>Search Hikers</h3>
+            <form id="searchHikersForm">
+                <label for="searchConditions">Enter Conditions:</label><br>
+                <input type="text" id="searchConditions" placeholder="e.g., HikerEmail = '...' AND Name = 'Ada' AND NumofTrailsCompleted > 5 OR ClubEmail = '...'" required>
+                <button type="submit">Search</button>
+            </form>
+            <p id="searchResultMsg" style="display: none;"></p>
+            <div class="table-container">
+                <table id="searchResultsTable" class="styled-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Hiker Email</th>
+                            <th>Name</th>
+                            <th>Number of Trails Completed</th>
+                            <th>Club Email</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            </section>
+
+            <section id="projectionSection">
+                <h3>Select Attributes to View</h3>
+                <form id="projectionForm">
+                    <label><input type="checkbox" value="HikerEmail"> Hiker Email</label><br>
+                    <label><input type="checkbox" value="Name"> Name</label><br>
+                    <label><input type="checkbox" value="NumofTrailsCompleted"> Number of Trails Completed</label><br>
+                    <label><input type="checkbox" value="ClubEmail"> Club Email</label><br><br>
+                    <button type="submit">View Projection</button>
+                </form>
+                <p id="projectionResultMsg" style="display: none;"></p>
+                <div class="table-container">
+                    <table id="projectionTable" class="styled-table" style="display: none;">
+                        <thead>
+                            <tr id="projectionTableHeader"></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+        <section id="hikersByTrailSection">
+            <h3>Find Hikers by Trail Name</h3>
+            <form id="hikersByTrailForm">
+                <label for="trailName">Trail Name:</label>
+                <input type="text" id="trailName" placeholder="Enter Trail Name" required>
+                <button type="submit">Search</button>
+            </form>
+            <p id="hikersByTrailResultMsg" style="display: none;"></p>
+            <div class="table-container">
+                <table id="hikersByTrailTable" class="styled-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Hiker Email</th>
+                            <th>Hiker Name</th>
+                            <th>Trail Name</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+   
+
+        <!-- Manage Hiking Clubs Section -->
+        <section id="manageHikingClubsSection">
+            <h3>Manage Hiking Clubs</h3>
+
+            <!-- Insert Hiking Club -->
+            <h3>Add Hiking Club</h3>
+            <form id="insertHikingClubForm">
+                <label for="clubEmail">Club Email:</label>
+                <input type="email" id="clubEmail" required><br>
+                <label for="clubName">Club Name:</label>
+                <input type="text" id="clubName" required><br>
+                <label for="numMembers">Number of Members:</label>
+                <input type="number" id="numMembers" required>
+                <button type="submit">Insert Club</button><br><br>
+            </form>
+            <p id="insertHikingClubResultMsg" style="display: none;"></p>
+
+            <!-- Delete Hiking Club -->
+            <form id="deleteHikingClubForm">
+                <h3>Delete Hiking Club</h3>
+                Club Email: <input type="text" id="deleteClubEmail" placeholder="Enter Club Email" required>
+                <button type="submit">Delete Club</button><br><br>
+            </form>
+            <p id="deleteHikingClubResultMsg" style="display: none;"></p>
+        </section>
+
+    </main>
+    <!-- ===================================================================================== -->
+    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</body>
+</html>
