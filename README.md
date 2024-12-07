@@ -1,1 +1,0 @@
-# Hiking_SQL_Project
